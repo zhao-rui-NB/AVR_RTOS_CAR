@@ -42,7 +42,7 @@ int main(void){
     initKernel();
 
     initTimer1();//ticks1 for kernel 1 shot 1ms (ticks1)
-    initTimer0();//ticks0 for sys time 0.1s (ticks0)
+    initTimer3();//ticks0 for sys time 0.1s (ticks0)
 
 
     // startTask( (void *) &initState, 0, MINIMUM_PRIORITY, MINIMUM_STACK_SIZE );

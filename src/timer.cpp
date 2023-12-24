@@ -8,7 +8,7 @@
 #include <avr/interrupt.h>
 
 volatile uint16_t ticks1; //ticks1 for kernel 1 shot 1ms (ticks1)
-volatile uint16_t ticks0; //ticks0 for sys time 0.1s (ticks0)
+volatile uint16_t ticks3; //ticks0 for sys time 0.1s (ticks0)
 
 
 
@@ -24,23 +24,19 @@ void initTimer1(){
     TIMSK |= (1 << TOIE1);
 } // initTimer1
 
-// void initTimer3(){
-//     TCCR3A = 0;
-//     // 16MHz/256
-//     TCCR3B = (1 << CS32);
-//     TCCR3C = 0;
-//     ETIFR |= (1 << TOV3);
-//     // enable Timer3 overflow interrupt
-//     ETIMSK |= (1 << TOIE3);
-  
-// } // initTimer3
-
-
-void initTimer0(){
+void initTimer3(){
+    TCCR3A = 0;
     // 16MHz/256
-    TCCR0 = (1 << CS02) | (1 << CS01) | (1 << CS00);
-    TIMSK |= (1 << TOIE0);
+    TCCR3B = (1 << CS32);
+    TCCR3C = 0;
+    ETIFR |= (1 << TOV3);
+    // enable Timer3 overflow interrupt
+    ETIMSK |= (1 << TOIE3);
+  
 } // initTimer3
+
+
+
 
 
 
@@ -204,19 +200,19 @@ ISR(TIMER1_OVF_vect, ISR_NAKED) {
     asm volatile("\t reti\n"::);
 }
 
-// ISR(TIMER3_OVF_vect){ // set 0.1s
-//     // 1 shot 1/10s
-//     // 16MHz / 256 * 1/10 = 6250
-//     // 2^16 - 6250 = 59286
-//     TCNT3 = 59286;
-//     ticks3++;
-// }
-
-
-ISR(TIMER0_OVF_vect){
-    // 1 shot 0.1s
+ISR(TIMER3_OVF_vect){ // set 0.1s
+    // 1 shot 1/10s
     // 16MHz / 256 * 1/10 = 6250
-    // 2^8 - 250 = 6
-    TCNT0 = 6;
-    ticks0++;
+    // 2^16 - 6250 = 59286
+    TCNT3 = 59286;
+    ticks3++;
 }
+
+
+// ISR(TIMER0_OVF_vect){
+//     // 1 shot 0.1s
+//     // 16MHz / 256 * 1/10 = 6250
+//     // 2^8 - 250 = 6
+//     TCNT0 = 6;
+//     ticks0++;
+// }
