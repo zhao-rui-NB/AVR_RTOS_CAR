@@ -8,7 +8,7 @@
 #include <avr/interrupt.h>
 
 volatile uint16_t ticks1; //ticks1 for kernel 1 shot 1ms (ticks1)
-volatile uint16_t ticks3; //ticks0 for sys time 0.1s (ticks0)
+volatile uint16_t sys_time; // 0.1s
 
 
 
@@ -24,16 +24,16 @@ void initTimer1(){
     TIMSK |= (1 << TOIE1);
 } // initTimer1
 
-void initTimer3(){
-    TCCR3A = 0;
-    // 16MHz/256
-    TCCR3B = (1 << CS32);
-    TCCR3C = 0;
-    ETIFR |= (1 << TOV3);
-    // enable Timer3 overflow interrupt
-    ETIMSK |= (1 << TOIE3);
+// void initTimer3(){
+//     TCCR3A = 0;
+//     // 16MHz/256
+//     TCCR3B = (1 << CS32);
+//     TCCR3C = 0;
+//     ETIFR |= (1 << TOV3);
+//     // enable Timer3 overflow interrupt
+//     ETIMSK |= (1 << TOIE3);
   
-} // initTimer3
+// } // initTimer3
 
 
 
@@ -89,7 +89,15 @@ ISR(TIMER1_OVF_vect, ISR_NAKED) {
     if ( current_task != MAXIMUM_TASKS ){
         task[current_task].stackPtr = (void *) SP;
     }
-  
+    
+    // zhaorui add
+    static uint8_t cnt_for_100ms = 0;
+    cnt_for_100ms++;
+    if (cnt_for_100ms == 100) {
+        cnt_for_100ms = 0;
+        sys_time++;
+    }
+
     /*// 1 shot 10ms
     // 16MHz / 256 * 1/100 = 625
     // 2^16 - 625 = 64911
@@ -200,19 +208,10 @@ ISR(TIMER1_OVF_vect, ISR_NAKED) {
     asm volatile("\t reti\n"::);
 }
 
-ISR(TIMER3_OVF_vect){ // set 0.1s
-    // 1 shot 1/10s
-    // 16MHz / 256 * 1/10 = 6250
-    // 2^16 - 6250 = 59286
-    TCNT3 = 59286;
-    ticks3++;
-}
-
-
-// ISR(TIMER0_OVF_vect){
-//     // 1 shot 0.1s
+// ISR(TIMER3_OVF_vect){ // set 0.1s
+//     // 1 shot 1/10s
 //     // 16MHz / 256 * 1/10 = 6250
-//     // 2^8 - 250 = 6
-//     TCNT0 = 6;
-//     ticks0++;
+//     // 2^16 - 6250 = 59286
+//     TCNT3 = 59286;
+//     ticks3++;
 // }

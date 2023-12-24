@@ -29,14 +29,14 @@ void test_task(void *arg){
         _delay_ms(1000);
         sleep(1000);
         serial_print("time:");
-        serial_print((int)ticks3);
+        serial_print((int)sys_time);
         serial_print("\n");
 
         write_led0(0);
         _delay_ms(1000);
         sleep(1000);
         serial_print("time:");
-        serial_print((int)ticks3);
+        serial_print((int)sys_time);
         serial_print("\n");
 
     }
@@ -64,14 +64,32 @@ void print_hello(void *arg){
 
 void print_cnt(void *arg){
     // int cnt = 0;
-    uint16_t start_time = ticks3;
+    uint16_t start_time = sys_time;
     while(1){
         // downSemaphore(&uart_lock);
-        if (ticks3 - start_time >= 10){
+        if (sys_time - start_time >= 10){
             serial_print("[kernel] time tick3:");
-            serial_print((int)ticks3);
+            serial_print((int)sys_time);
             serial_print("\n");
-            start_time = ticks3;
+            start_time = sys_time;
+        }
+        // upSemaphore(&uart_lock);
+        
+        //sleep(10);
+
+    }
+}
+
+void print_cnt2(void *arg){
+    // int cnt = 0;
+    uint16_t start_time = ticks1;
+    while(1){
+        // downSemaphore(&uart_lock);
+        if (ticks1 - start_time >= 1000){
+            serial_print("[kernel] time tick1:");
+            serial_print((int)ticks1);
+            serial_print("\n");
+            start_time = ticks1;
         }
         // upSemaphore(&uart_lock);
         
