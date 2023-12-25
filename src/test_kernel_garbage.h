@@ -7,6 +7,10 @@
 #include "timer.h"
 #include "kernel.h"
 
+#include "adc.h"
+
+#include "motor_ctrl.h"
+
 void test_task_print1(void *arg){
     while(1){
         // serial_print("1");
@@ -67,7 +71,7 @@ void print_cnt(void *arg){
     uint16_t start_time = sys_time;
     while(1){
         // downSemaphore(&uart_lock);
-        if (sys_time - start_time >= 10){
+        if (sys_time - start_time >= 1){
             serial_print("[kernel] time tick3:");
             serial_print((int)sys_time);
             serial_print("\n");
@@ -119,5 +123,83 @@ void blink_led(void *arg){
         sleep(1000);
         write_led0(0);
         sleep(1000);
+    }
+}
+
+
+void motor_test(void *arg){
+    
+    
+    while(1){
+        motor_write_dir(MOTOR_DIR_FF);
+        motor_write_speed(102,102);
+        serial_print("motor FF\n");
+        sleep(1000);
+        while(1){}
+        motor_write_dir(MOTOR_DIR_BB);
+        motor_write_speed(200,200);
+        serial_print("motor BB\n");
+        sleep(1000);
+    }
+    // motor_write_dir(MOTOR_DIR_FS);
+    // motor_write_speed(60000,60000);
+    // _delay_ms(1000);
+    // motor_write_dir(MOTOR_DIR_SF);
+    // motor_write_speed(60000,60000);
+    // _delay_ms(1000);
+    // motor_write_dir(MOTOR_DIR_FB);
+    // motor_write_speed(60000,60000);
+    // _delay_ms(1000);
+    // motor_write_dir(MOTOR_DIR_BF);
+    // motor_write_speed(60000,60000);
+    // _delay_ms(1000);
+    // motor_write_dir(MOTOR_DIR_BS);
+    // motor_write_speed(60000,60000);
+    // _delay_ms(1000);
+    // motor_write_dir(MOTOR_DIR_SB);
+    // motor_write_speed(60000,60000);
+    // _delay_ms(1000);
+    // motor_write_dir(MOTOR_DIR_SS);
+    // motor_write_speed(60000,60000);
+    // _delay_ms(1000);
+}
+
+void adc_test(void *arg){
+    while(1){
+        // avg adc buffer 
+        uint16_t L = 0;
+        uint16_t M = 0;
+        uint16_t R = 0;
+        uint16_t BAT = 0;
+
+        for(int i=0;i<ADC_L_BUFFER_SIZE;i++){
+            L += adc_L_buffer[i];
+        }
+        for(int i=0;i<ADC_M_BUFFER_SIZE;i++){
+            M += adc_M_buffer[i];
+        }
+        for(int i=0;i<ADC_R_BUFFER_SIZE;i++){
+            R += adc_R_buffer[i];
+        }
+        for(int i=0;i<ADC_BAT_BUFFER_SIZE;i++){
+            BAT += adc_BAT_buffer[i];
+        }
+        L /= ADC_L_BUFFER_SIZE;
+        M /= ADC_M_BUFFER_SIZE;
+        R /= ADC_R_BUFFER_SIZE;
+        BAT /= ADC_BAT_BUFFER_SIZE;
+
+        serial_print("L\tM\tR\tBAT\n");
+        serial_print((int)L);
+        serial_print("\t");
+        serial_print((int)M);
+        serial_print("\t");
+        serial_print((int)R);
+        serial_print("\t");
+        serial_print((int)BAT);
+        serial_print("\n");
+
+        
+        sleep(100);
     }
 }

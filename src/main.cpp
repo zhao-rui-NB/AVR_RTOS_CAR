@@ -7,6 +7,7 @@
 #include "timer.h"
 #include "kernel.h"
 
+#include "motor_ctrl.h"
 
 #include "test_kernel_garbage.h"
 
@@ -24,9 +25,12 @@
 
 int main(void){
     init_led();
-
     write_led0(1);
-    
+
+    motor_timer_init();
+
+    adc_init();
+
     serial_begin();
 
     serial_print("\nhello world my uart \n");
@@ -60,10 +64,16 @@ int main(void){
 
     // startTask( (&print_hello), 0 , MINIMUM_PRIORITY , MINIMUM_STACK_SIZE );
     // startTask( print_cnt, 0 , MINIMUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
-    startTask( print_cnt, 0 , MINIMUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
+    // startTask( print_cnt, 0 , MINIMUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
 
     startTask( blink_led, 0 , MINIMUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
 
+
+    // test motor
+    // startTask( motor_test, 0 , MEDIUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
+
+    // test adc 
+    startTask( adc_test, 0 , MEDIUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
 
 
     while(1){}
