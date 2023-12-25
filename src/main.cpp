@@ -9,21 +9,43 @@
 
 #include "motor_ctrl.h"
 
+#include "adc.h"
+#include "LCD.h"    
+
 #include "test_kernel_garbage.h"
 
 
 
+void task_lcd_print_adc(void *arg){
+    while(1){
+        lcd_set_cursor(0,0);
+        lcd_print("L");
+        lcd_print_int(adc_L_get_avg() , 3);
 
+        lcd_set_cursor(0,5);
+        lcd_print("M");
+        lcd_print_int(adc_M_get_avg() , 3);
 
-//#define USART0_BAUD_RATE 16 // 16->115200 34->57600 207->9600
+        lcd_set_cursor(0,10);
+        lcd_print("R");
+        lcd_print_int(adc_R_get_avg() , 3);
 
-// #define F_CPU 16000000UL
+        lcd_set_cursor(1,0);
+        lcd_print("BAT");
+        lcd_print_int(adc_BAT_to_volt(adc_BAT_get_avg()) , 3);
+        
+
+        sleep(100);
+    }
+}
 
 
 
 
 
 int main(void){
+    lcd_init();
+
     init_led();
     write_led0(1);
 
@@ -75,6 +97,10 @@ int main(void){
     // test adc 
     startTask( adc_test, 0 , MEDIUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
 
+    // startTask(test_lcd, 0 , MEDIUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
+
+
+    startTask( task_lcd_print_adc, 0 , MEDIUM_PRIORITY , MINIMUM_STACK_SIZE )  ;
 
     while(1){}
 }

@@ -9,6 +9,8 @@
 
 #include "adc.h"
 
+#include "LCD.h"
+
 #include "motor_ctrl.h"
 
 void test_task_print1(void *arg){
@@ -196,10 +198,25 @@ void adc_test(void *arg){
         serial_print("\t");
         serial_print((int)R);
         serial_print("\t");
-        serial_print((int)BAT);
+        serial_print((int)BAT / 5 + 4);
         serial_print("\n");
 
         
         sleep(100);
+    }
+}
+
+
+void test_lcd(void *arg){
+    
+    while(1){
+        for(int i=0;i<10000;i++){
+            lcd_clear();
+            lcd_set_cursor(0,0);
+            lcd_print("hello world 1234");
+            lcd_set_cursor(1,0);
+            lcd_print_int(i , 5);
+            sleep(300);
+        }
     }
 }

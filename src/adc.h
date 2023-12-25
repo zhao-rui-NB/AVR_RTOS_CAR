@@ -33,6 +33,12 @@ extern volatile uint8_t adc_now_ch;
 
 void adc_init();
 
+uint16_t adc_L_get_avg();
+uint16_t adc_M_get_avg();
+uint16_t adc_R_get_avg();
+uint16_t adc_BAT_get_avg();
+uint16_t adc_BAT_to_volt(uint16_t adc_val);
+
 
 
 

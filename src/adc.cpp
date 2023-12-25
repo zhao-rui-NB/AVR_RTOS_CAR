@@ -63,3 +63,45 @@ ISR(ADC_vect){
         }
     }
 }
+
+
+uint16_t adc_L_get_avg(){
+    uint16_t avg = 0;
+    for(int i=0;i<ADC_L_BUFFER_SIZE;i++){
+        avg += adc_L_buffer[i];
+    }
+    avg /= ADC_L_BUFFER_SIZE;
+    return avg;
+
+}
+uint16_t adc_M_get_avg(){
+    uint16_t avg = 0;
+    for(int i=0;i<ADC_M_BUFFER_SIZE;i++){
+        avg += adc_M_buffer[i];
+    }
+    avg /= ADC_M_BUFFER_SIZE;
+    return avg;
+}
+uint16_t adc_R_get_avg(){
+    uint16_t avg = 0;
+    for(int i=0;i<ADC_R_BUFFER_SIZE;i++){
+        avg += adc_R_buffer[i];
+    }
+    avg /= ADC_R_BUFFER_SIZE;
+    return avg;
+}
+
+
+//adc_BAT_to_volt(adc_BAT_get_avg())
+uint16_t adc_BAT_get_avg(){
+    uint16_t avg = 0;
+    for(int i=0;i<ADC_BAT_BUFFER_SIZE;i++){
+        avg += adc_BAT_buffer[i];
+    }
+    avg /= ADC_BAT_BUFFER_SIZE;
+    return avg;
+}
+
+uint16_t adc_BAT_to_volt(uint16_t adc_val){
+    return adc_val / 5 + 4; 
+}
