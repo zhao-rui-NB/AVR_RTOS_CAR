@@ -13,9 +13,9 @@
 
 #define ADC_CH_CNT 4
 
-#define ADC_L_BUFFER_SIZE 8
-#define ADC_M_BUFFER_SIZE 8
-#define ADC_R_BUFFER_SIZE 8
+#define ADC_L_BUFFER_SIZE 1
+#define ADC_M_BUFFER_SIZE 1
+#define ADC_R_BUFFER_SIZE 1
 #define ADC_BAT_BUFFER_SIZE 8
 
 extern volatile uint8_t adc_L_buffer_index ;
