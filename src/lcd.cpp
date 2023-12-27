@@ -190,7 +190,7 @@ void lcd_s_delay(void){
 
 void lcd_clear(void){
    WriteCmdLCD(0x01);     //  this clear display all 
-   _delay_ms(1);
+   lcd_s_delay();
 }
 
 void lcd_print_int(int val,uint8_t field_length){    //val display num  field for cloumd
