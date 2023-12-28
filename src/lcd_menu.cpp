@@ -483,8 +483,6 @@ void lcd_menu_handler(void *arg){
                 if(have_new_frame){
                     have_new_frame = 0;
                     
-                    serial_print("start show res\n");
-                    
                     lcd_clear();
                     lcd_set_cursor(0,0);
                     lcd_print("bL");
@@ -527,7 +525,7 @@ void lcd_menu_handler(void *arg){
                 lcd_set_cursor(0,0);
                 lcd_print("PID line follow");
                 lcd_set_cursor(1,0);
-                lcd_print("push back to stop");
+                lcd_print("push back stop");
             }
             if(need_start_task){
                 need_start_task = 0;
@@ -596,7 +594,7 @@ ISR(INT5_vect){
     if(sys_time-last_btn_INT_time > BTN_DEBUNCE_TIME){
         btn_req[BTN_LEFT] = 1;
         last_btn_INT_time = sys_time;
-        serial_print("INT5\n");
+        // serial_print("INT5\n");
     }
 	EIFR |= 0xFF;
 }
@@ -605,7 +603,7 @@ ISR(INT6_vect){
 	if(sys_time-last_btn_INT_time > BTN_DEBUNCE_TIME){
         btn_req[BTN_OK] = 1;
         last_btn_INT_time = sys_time;
-        serial_print("INT6\n");
+        // serial_print("INT6\n");
     }
 	EIFR |= 0xFF;
 }
@@ -614,7 +612,7 @@ ISR(INT7_vect){
     if(sys_time-last_btn_INT_time > BTN_DEBUNCE_TIME){
         btn_req[BTN_RIGHT] = 1;
         last_btn_INT_time = sys_time;
-        serial_print("INT7\n");
+        // serial_print("INT7\n");
     }
 	EIFR |= 0xFF;
 }
