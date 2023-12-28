@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 
 #include "led.h"
-#include "uart.h"
+// #include "uart.h"
 #include "timer.h"
 #include "kernel.h"
 

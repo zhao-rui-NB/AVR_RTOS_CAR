@@ -282,7 +282,7 @@ uint8_t scheck(void){
 void sfree(void *stackPtr){
     uint8_t x;
     for (x = 0; x < MAXIMUM_TASKS; x++){
-        if ( stackPtr <= partition_list[x].stackPtr && stackPtr >= (partition_list[x].stackPtr - partition_list[x].stackSize) ){
+        if ( stackPtr <= partition_list[x].stackPtr && stackPtr >= ((uint8_t*)partition_list[x].stackPtr - partition_list[x].stackSize) ){
 	        partition_list[x].status = FREE;
         }
     }

@@ -125,7 +125,7 @@ void lcd_set_cursor(uint8_t CurY, uint8_t CurX){
 	asm volatile("nop\n\t");
 }
 
-void lcd_print(char *Str){
+void lcd_print(const char *Str){
 	while (1){
 		Str_Temp = *Str;
 		if (Str_Temp != 0x00 ){

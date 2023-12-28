@@ -58,7 +58,7 @@ void lcd_set_cursor(uint8_t CurY, uint8_t CurX);
 
 //void putrsLCD( const rom char *Str );
 
-void lcd_print( char *Str);
+void lcd_print(const char *Str);
 
 void lcd_print_hex(uint16_t HEX_Val);
 

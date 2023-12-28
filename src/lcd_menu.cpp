@@ -28,7 +28,7 @@ uint8_t total_app = 5;
 uint8_t app_id = 0;
 
 // app_name and app_id_to_page MUST have same order 
-char* app_name[] = { // 16 char max // print at lcd line 0
+const char* app_name[] = { // 16 char max // print at lcd line 0
     "PID line follow",
     "show ADC value",  
     "set target speed",

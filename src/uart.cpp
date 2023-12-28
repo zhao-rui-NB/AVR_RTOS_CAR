@@ -21,7 +21,7 @@ void serial_begin(){
     initSemaphore(&uart_lock, 1);
 }
 
-void serial_write_byte(uint8_t data){
+inline void serial_write_byte(uint8_t data){
     while ( !( UCSR0A & (1 << UDRE0) ) ){}
     UDR0 = data;
 }

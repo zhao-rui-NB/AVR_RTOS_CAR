@@ -19,7 +19,7 @@ extern Semaphore uart_lock;
 
 
 // uint8_t uart0_auto_stop_isr = 1;
-inline void serial_write_byte(uint8_t data);
+void serial_write_byte(uint8_t data);
 
 void serial_begin();//default 115200
 void serial_write(uint8_t data);
