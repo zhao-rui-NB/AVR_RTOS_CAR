@@ -19,6 +19,14 @@ extern uint8_t btn_req[];
 #define BTN_RIGHT  4
 
 
+// read all btn state 
+#define read_btn_stop()   (!(PIND & (1<<PINE0)))
+#define read_btn_back()   (!(PIND & (1<<PINE1)))
+#define read_btn_left()   (!(PINE & (1<<PINE5)))
+#define read_btn_ok()     (!(PINE & (1<<PINE6)))
+#define read_btn_right()  (!(PINE & (1<<PINE7)))
+
+
 
 
 
